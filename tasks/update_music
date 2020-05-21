@@ -1,0 +1,13 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+_notification(){
+	termux-notification \
+		--title "UDM" \
+		--content "$1" \
+		--image-path ~/toolbelt/assets/udm_logo.jpg
+}
+
+rsync -av kiwi:~/music/ ~/Music ||
+	_notification "failed syncing"
+termux-media-scan ~/Music
+_notification "finished syncing"
