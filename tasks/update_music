@@ -4,7 +4,8 @@ _notification(){
 	termux-notification \
 		--title "UDM" \
 		--content "$1" \
-		--image-path ~/toolbelt/assets/udm_logo.jpg
+		--image-path ~/shortcuts/assets/udm_logo.jpg
+	exit 1
 }
 
 rsync -av kiwi:~/music/ ~/Music ||
