@@ -1,0 +1,22 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -e
+
+LINK=$(termux-clipboard-get)
+
+[ -n "$LINK" ] || termux-notification --title "UDM" --content "Invalid link: $LINK" && exit
+
+termux-notification \
+    --title "UDM" \
+    --id "add_udm_yn" \
+    --content "Add $LINK to playlist?" \
+    --image-path ~/shortcuts/assets/udm_logo.jpg \
+    --button1 "yes" \
+    --button1-action \
+        "~/$DOTFILES/toolbox/udm.tool add $LINK | \
+            termux-notification \
+                --title UDM \
+                --id add_udm_yn
+                --image-path ~/shortcuts/assets/udm_logo.jpg; \
+        rsync -av kiwi:~/music/ $MUSIC" \
+    --button2 "no" \
+    --button2-action "termux-notification-remove add_udm_yn"
