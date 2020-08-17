@@ -1,0 +1,2 @@
+#!/data/data/com.termux/files/usr/bin/bash
+rsync --recursive --perms --times --owner --group --devices --specials --copy-links --verbose ~/photos kiwi:~
