@@ -1,4 +1,6 @@
 #!/bin/bash
+DIR=$(dirname "$(readlink -f "$0")")
+
 cleanDir() {
     for file in "$1"/*
     do
@@ -33,6 +35,15 @@ syncDir() {
     chmod +x "$1"/*
 }
 
+task_set() {
+    echo -e "\033[35mSetting task:\033[33m $1 (every: $2 ms)\033[0m"
+    termux-job-scheduler \
+        --script "$DIR/$1" \
+        --period-ms "$2" \
+        --persisted true
+}
+
+
 mkdir -p ~/.shortcuts/tasks
 cd "$(dirname "$(realpath "$0")")" || return 0
 
@@ -41,5 +52,8 @@ cleanDir ~/.shortcuts
 
 newDir tasks ~/.shortcuts/tasks || syncDir tasks ~/.shortcuts/tasks
 newDir foreground_tasks ~/.shortcuts || syncDir foreground_tasks ~/.shortcuts
+
+termux-job-scheduler --cancel-all
+task_set foreground_tasks/change_lock 900000
 
 echo -e "\033[35mDone!\033[0m"
