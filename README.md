@@ -7,6 +7,7 @@ bash install.sh
 ```
 
 ## [tasks](tasks)
- * [change_lock](foreground_task/change_lock) - update lock screen
- * [sync_music](foreground_tasks/sync_music) - sync all my music from my webserver
- * [sync_photos](foreground_tasks/sync_photos) - sync all my photos to my webserver
+ * [change_lock](task/change_lock) - update lock screen
+ * [share_location](tasks/share_location) - get a link to my current location
+ * [sync_music](tasks/sync_music) - sync all my music from my webserver
+ * [sync_photos](tasks/sync_photos) - sync all my photos to my webserver

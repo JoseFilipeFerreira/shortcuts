@@ -1,0 +1,12 @@
+#!/data/data/com.termux/files/usr/bin/bash
+echo -e "\033[35mGetting Location...\033[0m"
+LOC="$(termux-location)"
+
+LAT="$(echo "$LOC" | grep "latitude" | grep -oP "[-0-9.]*")"
+LON="$(echo "$LOC" | grep "longitude" | grep -oP "[-0-9.]*")"
+
+echo -e "\033[35mLocation: \033[33m$LAT,$LON\033[0m"
+
+termux-clipboard-set "https://www.google.com/maps/search/?api=1&query=$LAT,$LON"
+
+echo -e "\033[35mLink Copied to Clipboard\033[0m"
