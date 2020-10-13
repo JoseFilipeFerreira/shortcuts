@@ -1,0 +1,10 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+echo -e "\033[35mSyncing photos...\033[33m"
+rsync --recursive --perms --times --owner --group --devices --specials --copy-links --verbose ~/photos mightymime@jff.sh:~
+
+echo -e "\n\033[35mSyncing music...\033[33m"
+rsync -av mightymime@jff.sh:~/music/ ~/storage/music
+termux-media-scan ~/storage/music
+
+echo -e "\n\033[35mDone!\033[0m"

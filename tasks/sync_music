@@ -1,3 +1,0 @@
-#!/data/data/com.termux/files/usr/bin/bash
-rsync -av mightymime@jff.sh:~/music/ ~/storage/music
-termux-media-scan ~/storage/music
