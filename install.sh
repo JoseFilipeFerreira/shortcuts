@@ -13,5 +13,5 @@ termux-job-scheduler --cancel-all
 task_set shorts/tasks/change_lock 900000
 
 echo -e "\033[35mStoring Tasks...\033[33m"
-    ln -fvsn "$DIR/shorts" ~/.shortcuts | sed "s|$HOME|~|g;s|'||g"
+    ln -vsn "$DIR/shorts" ~/.shortcuts | sed "s|$HOME|~|g;s|'||g"
 echo -e "\033[35mDone!\033[0m"

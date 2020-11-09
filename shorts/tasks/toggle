@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/bash
+ssh mightymime@jff.sh 'echo "toggle" > /tmp/meross.d'
+termux-toast \
+    -g bottom \
+    "lights: $(ssh mightymime@jff.sh 'cat /tmp/merossstate.d')"
