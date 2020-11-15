@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-ssh mightymime@jff.sh 'echo "toggle" > /tmp/meross.d'
+status="$(ssh mightymime@jff.sh 'curl --silent localhost:4200/bulb/toggle')"
 termux-toast \
     -g bottom \
-    "lights: $(ssh mightymime@jff.sh 'cat /tmp/merossstate.d')"
+    "lights: $status"
