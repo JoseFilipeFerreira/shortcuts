@@ -6,8 +6,10 @@ Colection of scripts I keep on my phone
 bash install.sh
 ```
 
-## [tasks](tasks)
- * [change_lock](task/change_lock) - update lock screen
- * [share_location](tasks/share_location) - get a link to my current location
- * [sync_music](tasks/sync_music) - sync all my music from my webserver
- * [sync_photos](tasks/sync_photos) - sync all my photos to my webserver
+## [Foreground](shorts)
+ * [share_location](shorts/share_location) - get a link to my current location
+ * [sync_kiwi](shorts/sync_music) - sync photos and music with webserver
+ 
+## [Background](shorts/tasks)
+ * [change_lock](shorts/tasks/change_lock) - update lock screen
+ * [toggle](shorts/tasks/toggle) - toggle the lights with [merossd](https://github.com/JoseFilipeFerreira/merossd)

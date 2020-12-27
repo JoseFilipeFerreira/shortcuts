@@ -1,10 +1,28 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-echo -e "\033[35mSyncing photos...\033[33m"
-rsync --recursive --perms --times --owner --group --devices --specials --copy-links --verbose ~/photos mightymime@jff.sh:~
+rsync_flags=(--recursive --perms --times --owner --group --devices --specials --copy-links --verbose)
+
+folders=(
+dcim/Camera
+dcim/Facebook
+movies/Instagram
+movies/Messenger
+pictures/Facebook
+pictures/Messenger
+pictures/MyCollections/Daniela
+pictures/Reddit
+pictures/Memes
+)
+
+for folder in "${folders[@]}"; do
+    echo -e "\033[35mSyncing $folder...\033[33m"
+
+    rsync ${rsync_flags[@]} ~/storage/"$folder"/ mightymime@jff.sh:media/phone/"$(basename $folder)"
+
+done
 
 echo -e "\n\033[35mSyncing music...\033[33m"
-rsync -av mightymime@jff.sh:~/music/ ~/storage/music
+rsync -av mightymime@jff.sh:media/music/ ~/storage/music
 termux-media-scan ~/storage/music
 
 echo -e "\n\033[35mDone!\033[0m"
