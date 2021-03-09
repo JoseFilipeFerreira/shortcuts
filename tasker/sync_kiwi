@@ -1,0 +1,52 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -e
+
+notification_id="$RANDOM"
+notification_title="Syncing"
+notification_content=()
+
+rsync_flags=(--recursive --perms --times --owner --group --devices --specials --copy-links --verbose)
+
+folders=(
+dcim/Camera
+dcim/Facebook
+movies/Instagram
+movies/Messenger
+pictures/Facebook
+pictures/Messenger
+pictures/MyCollections/Daniela
+pictures/Reddit
+pictures/Memes
+)
+
+_update_notification(){
+    [[ "$1" ]] && notification_content+=("$1")
+
+    printf -v var "%s\n" "${notification_content[@]}"
+    echo "$var"
+    termux-notification \
+        --id "$notification_id" \
+        --alert-once \
+        --title "$notification_title" \
+        --content "$var"
+}
+
+_update_notification "..."
+
+notification_content=()
+for folder in "${folders[@]}"; do
+    if [ -d ~/storage/"$folder" ]; then
+        _update_notification "$folder"
+        rsync ${rsync_flags[@]} ~/storage/"$folder"/ mightymime@jff.sh:media/phone/"$(basename $folder)"
+    else
+        _update_notification "File not found: $folder"
+    fi
+
+done
+
+_update_notification "media/music"
+rsync -av --delete mightymime@jff.sh:media/music/ ~/storage/music
+termux-media-scan ~/storage/music
+
+notification_title="Syncing Done"
+_update_notification

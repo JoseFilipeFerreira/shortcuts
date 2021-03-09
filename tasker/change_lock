@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 tmp=~/.temp_wallpaper.png
 
-rsync -av mightymime@jff.sh:~/media/wallpapers ~/.local/share
+rsync --delete -av mightymime@jff.sh:~/media/wallpapers ~/.local/share
 
 magick $(find ~/.local/share/wallpapers -type f | shuf -n 1) -gravity center -extent 6:13 "$tmp"
 termux-wallpaper -f "$tmp"

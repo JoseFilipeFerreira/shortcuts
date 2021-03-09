@@ -1,0 +1,25 @@
+#!/data/data/com.termux/files/usr/bin/bash
+cache_file=~/.cache/music_devices
+
+_update_cache(){
+    > "$cache_file"
+    for d in $(grep "^Host" ~/.ssh/config | sed 's/Host //g'); do
+        if ssh "$d" 'command -v mpv &> /dev/null'; then
+            echo "$d" >> "$cache_file"
+        fi
+    done
+}
+
+[ -f "$cache_file" ] || _update_cache
+
+case "$1" in
+    --first)
+        head -n 1 "$cache_file"
+        ;;
+    --all)
+        awk '{print $1}' "$cache_file" | paste -s -d, -
+        ;;
+    --update)
+        _update_cache & disown
+        ;;
+esac

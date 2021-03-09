@@ -1,6 +1,8 @@
 #!/bin/bash
 DIR=$(dirname "$(readlink -f "$0")")
 
+[ -d ~/storage ] || termux-setup-storage
+
 task_set() {
     echo -e "\033[35mSetting task:\033[33m $1 (every: $2 ms)\033[0m"
     termux-job-scheduler \
@@ -10,8 +12,17 @@ task_set() {
 }
 
 termux-job-scheduler --cancel-all
-task_set shorts/tasks/change_lock 900000
+task_set tasker/change_lock 900000
 
-echo -e "\033[35mStoring Tasks...\033[33m"
-    ln -vsn "$DIR/shorts" ~/.shortcuts | sed "s|$HOME|~|g;s|'||g"
-echo -e "\033[35mDone!\033[0m"
+files=(
+tasker
+settings/colors.properties
+settings/termux.properties
+)
+
+echo -e "\033[35mCreating Links:\033[0m"
+for file in "${files[@]}"; do
+    ln -fvsn "$DIR/$file" ~/.termux/"$(basename "$file")" | sed "s|$HOME|~|g;s|'||g"
+done
+
+termux-reload-settings
