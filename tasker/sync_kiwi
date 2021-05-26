@@ -1,22 +1,28 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -e
 
+
 notification_id="$RANDOM"
-notification_title="Syncing"
+notification_title="Syncing jff.sh"
 notification_content=()
 
-rsync_flags=(--recursive --perms --times --owner --group --devices --specials --copy-links --verbose)
+remote="mightymime@jff.sh"
+if ping -c 1 kiwi &>/dev/null; then
+    remote="mightymime@kiwi"
+    notification_title="Syncing kiwi"
+fi
+
+rsync_flags=( --recursive --perms --times --owner --group --devices --specials --copy-links --verbose)
 
 folders=(
 dcim/Camera
 dcim/Facebook
 movies/Instagram
 movies/Messenger
-pictures/Facebook
+pictures/Instagram
 pictures/Messenger
-pictures/MyCollections/Daniela
+pictures/MyCollections
 pictures/Reddit
-pictures/Memes
 )
 
 _update_notification(){
@@ -28,6 +34,7 @@ _update_notification(){
         --id "$notification_id" \
         --alert-once \
         --title "$notification_title" \
+        --image-path ~/shortcuts/assets/kiwi.png \
         --content "$var"
 }
 
@@ -37,7 +44,7 @@ notification_content=()
 for folder in "${folders[@]}"; do
     if [ -d ~/storage/"$folder" ]; then
         _update_notification "$folder"
-        rsync ${rsync_flags[@]} ~/storage/"$folder"/ mightymime@jff.sh:media/phone/"$(basename $folder)"
+        rsync "${rsync_flags[@]}" --relative ~/storage/./"$folder" "$remote":phone/
     else
         _update_notification "File not found: $folder"
     fi
@@ -45,8 +52,11 @@ for folder in "${folders[@]}"; do
 done
 
 _update_notification "media/music"
-rsync -av --delete mightymime@jff.sh:media/music/ ~/storage/music
+rsync -av --delete "$remote":.local/share/music/ ~/storage/music
 termux-media-scan ~/storage/music
 
-notification_title="Syncing Done"
+_update_notification "wallpapers"
+rsync -av --delete "$remote":.local/share/wallpapers ~/.local/share
+
+notification_title+=" Done"
 _update_notification
